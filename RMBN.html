@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="images/LOGO.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rblx Minor Basilica ng Nazareno</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        header {
+            background-image: url("images/BACKGROUND.png");
+            background-size: cover;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-position: center;
+        }
+        header h1 {
+            font-size: 3.5em;
+            margin: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        header p {
+            font-size: 1.5em;
+            margin: 10px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        header img {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 5px solid white;
+            animation: fadeIn 2s ease-in-out;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #d30909;
+            margin: 0;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            padding: 14px 20px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin: 0 10px;
+            display: block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #b90606;
+            transform: scale(1.1);
+        }
+        .hero-content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .content.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .content h2 {
+            font-size: 2.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #d30909;
+            padding-bottom: 10px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .gallery img {
+            width: 30%;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+        /* Modal (Lightbox) Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: 10% auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .footer-content {
+            background-color: #3a3a3a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        .social-media {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .social-media a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #b90606;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+        .social-media a:hover {
+            color: #d30909;
+        }
+        @media (max-width: 768px) {
+            .content {
+                margin: 10px;
+            }
+            nav {
+                flex-direction: column;
+            }
+            nav a {
+                margin: 5px 0;
+            }
+            .hero-content {
+                padding: 10px;
+            }
+            .gallery img {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        .events ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .events li {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            border-left: 5px solid #d30909;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+        .events li.in-view {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .events h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .events p {
+            margin: 5px 0;
+            color: #333;
+        }
+        #devotion {
+            background-color: #f9f9f9;
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        #devotion h2 {
+            font-size: 2.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #d30909;
+            padding-bottom: 10px;
+        }
+        #devotion p {
+            margin: 15px 0;
+            color: #333;
+        }
+        #devotion ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        #devotion li {
+            margin: 10px 0;
+        }
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hero-content">
+            <h1>Rblx Minor Basilica ng Nazareno</h1>
+            <img src="images/LOGO.png" alt="RBLX Minor Basilica ng Nazareno Logo" width="180" height="180">
+            <p>Official Page of RMBN</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#events">Events</a>
+        <a href="#devotion">Devotion</a>
+    </nav>
+
+    <div class="content" id="home">
+        <div class="card">
+            <h2>Welcome To RMBN OFFICIAL PAGE!</h2>
+            <p><strong> We thank you for checking out our page, Viva!!</strong></p>
+        </div>
+
+        <div class="social-media">
+            <h3>Follow Us</h3>
+            <a href="https://www.facebook.com/people/Rblx-Minor-Basilica-ng-Nazareno/61555521506833/" target="_blank">Facebook</a>
+            <a href="https://www.youtube.com/@RblxMinorBasilicangNazareno" target="_blank">YouTube</a>
+        </div>
+    </div>
+
+    <div class="content" id="about">
+        <h2>What is Rblx Minor Basilica ng Nazareno all about?</h2>
+        <p>This is the Official Page of Rblx Minor Basilica ng Nazareno. This contains all things related to Nazareno, and our objective is to convert the Filipino Roblox community through roleplaying liturgy and recreating events similar to Quiapo Church on the Roblox platform.</p>
+        
+        <h3>ESTABLISHED</h3>
+        <p>January 8, 2024</p>
+    </div>
+
+    <div class="content" id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery">
+            <img src="images/Gallery1.png" alt="Gallery Image 1" onclick="openModal(this)">
+            <img src="images/Gallery2.png" alt="Gallery Image 2" onclick="openModal(this)">
+            <img src="images/Gallery3.png" alt="Gallery Image 3" onclick="openModal(this)">
+            <img src="images/Gallery4.png" alt="Gallery Image 4" onclick="openModal(this)">
+            <img src="images/Gallery5.png" alt="Gallery Image 5" onclick="openModal(this)">
+            <img src="images/Gallery6.png" alt="Gallery Image 6" onclick="openModal(this)">
+        </div>
+    </div>
+
+    <div class="content" id="events">
+        <h2>Events</h2>
+        <div class="events">
+            <ul>
+                <li>
+                    <h3>Thanksgiving Procession</h3>
+                    <p>Date: December 30, 2024</p>
+                    <p>Thanksgiving Procession around the Virtual Quiapo area</p>
+                </li>
+                <li>
+                    <h3>Virtual Traslacion(Senior Mayor)</h3>
+                    <p>Date: January 4, 2025</p>
+                    <p>Around Quiapo.</p>
+                </li>
+                <li>
+                    <h3>Virtual Traslacion(Senior Vicario)</h3>
+                    <p>Date: January 5, 2025</p>
+                    <p>Grandstand to Quiapo Church.</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content" id="devotion">
+    <h2>Devotion to Poong Jesus Nazareno</h2>
+    <p>The devotion to Poong Jesus Nazareno is a significant aspect of Filipino spirituality. It symbolizes the deep faith and reverence for the Black Nazarene, a representation of Jesus Christ known for its miraculous and healing powers. This devotion is celebrated through various activities, including processions, novenas, and annual events.</p>
+    <p>In our virtual community, we recreate these sacred traditions to bring the experience of devotion closer to those who may not be able to participate in person. Through roleplaying liturgies and recreating significant events, we honor the traditions and faith that the Black Nazarene represents.</p>
+    
+    <!-- Added Historical Background -->
+    <h3>Historical Background</h3>
+    <p>The Black Nazarene is a life-sized statue of Jesus Christ carrying the cross. It is believed to have been carved in Mexico and brought to the Philippines in the early 17th century by Spanish missionaries. The statue was initially housed in the church of San Nicolás in Manila, but was later transferred to the Minor Basilica of the Black Nazarene in Quiapo.</p>
+    <p>The statue is renowned for its dark complexion, which is attributed to a fire that damaged the original image. Despite this, the Black Nazarene has become a powerful symbol of hope and faith for millions of Filipinos. The annual Feast of the Black Nazarene, held on January 9, attracts millions of devotees who participate in the Traslacion, a grand procession from the Quirino Grandstand to the Quiapo Church. This event is one of the largest and most fervent religious gatherings in the world.</p>
+    <p>The devotion to the Black Nazarene is marked by its emphasis on personal sacrifice, penitence, and devotion. The faithful believe that the Black Nazarene performs miracles and brings healing to those who sincerely seek its intercession.</p>
+
+    <h3>Key Events in Devotion</h3>
+    <ul>
+        <li><strong>The Traslacion:</strong> An annual procession that commemorates the transfer of the Black Nazarene from its original location to its current shrine.</li>
+        <li><strong>The Novena:</strong> A series of prayers said nine days before the Feast of the Black Nazarene, focusing on spiritual renewal and devotion.</li>
+        <li><strong>The Feast Day:</strong> Celebrated on January 9, this day marks the culmination of the annual festivities with a grand procession and religious ceremonies.</li>
+    </ul>
+</div>
+
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2024 Rblx Minor Basilica ng Nazareno. All rights reserved.</p>
+            <p>Viva Poong Jesus Nazareno!</p>
+        </div>
+    </footer>
+
+    <!-- Modal (Lightbox) -->
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgModal">
+    </div>
+
+    <script>
+        // Function to open the modal and display the clicked image
+        function openModal(element) {
+            document.getElementById('myModal').style.display = 'block';
+            document.getElementById('imgModal').src = element.src;
+        }
+
+        // Function to close the modal
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        // Scroll event to apply animations
+        function checkInView() {
+            const contents = document.querySelectorAll('.content');
+            const events = document.querySelectorAll('.events li');
+            
+            contents.forEach(content => {
+                const rect = content.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    content.classList.add('in-view');
+                }
+            });
+
+            events.forEach(event => {
+                const rect = event.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    event.classList.add('in-view');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkInView);
+    </script>
+</body>
+</html>
