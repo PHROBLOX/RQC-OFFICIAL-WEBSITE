@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" type="x-icon" href="images/LOGO.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RQC Website</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        header {
+            background-image: url("images/BACKGROUND.png");
+            background-size: cover;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background-position: center;
+        }
+        header h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 3.5em;
+            margin: 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        header p {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5em;
+            margin: 10px 0;
+            animation: fadeIn 2s ease-in-out;
+        }
+        header img {
+            display: block;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 5px solid white;
+            animation: fadeIn 2s ease-in-out;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            background-color: #d30909;
+            margin: 0;
+            padding: 10px 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        nav a {
+            font-family: 'Cinzel', serif;
+            padding: 14px 20px;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            margin: 0 10px;
+            display: block;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+        nav a:hover {
+            background-color: #b90606;
+            transform: scale(1.1);
+        }
+        .hero-content {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content {
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .content.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .content h2 {
+            font-size: 2.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #d30909;
+            padding-bottom: 10px;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .gallery img {
+            width: 30%;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .gallery img:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.9);
+        }
+        .modal-content {
+            margin: 10% auto;
+            display: block;
+            width: 80%;
+            max-width: 800px;
+        }
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .close:hover,
+        .close:focus {
+            color: #bbb;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .footer-content {
+            font-family: 'Cinzel', serif;
+            background-color: #3a3a3a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            position: relative;
+            bottom: 0;
+        }
+        .social-media {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .social-media a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #b90606;
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+        .social-media a:hover {
+            color: #d30909;
+        }
+        @media (max-width: 768px) {
+            .content {
+                margin: 10px;
+            }
+            nav {
+                flex-direction: column;
+            }
+            nav a {
+                margin: 5px 0;
+            }
+            .hero-content {
+                padding: 10px;
+            }
+            .gallery img {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+        .events ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .events li {
+            padding: 10px;
+            margin: 10px 0;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            border-left: 5px solid #d30909;
+            transform: translateX(-100%);
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+        }
+        .events li.in-view {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        .events h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .events p {
+            margin: 5px 0;
+            color: #333;
+        }
+        #devotion {
+            background-color: #f9f9f9;
+            padding: 40px;
+            margin: 20px auto;
+            max-width: 1200px;
+            background-color: white;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        #devotion h2 {
+            font-size: 2.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #d30909;
+            padding-bottom: 10px;
+        }
+        #devotion p {
+            margin: 15px 0;
+            color: #333;
+        }
+        #devotion ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+        #devotion li {
+            margin: 10px 0;
+        }
+        /* Keyframes for animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        #group {
+            background-color: white;
+            padding: 40px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 1200px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        #group h2 {
+            font-size: 2.5em;
+            margin-top: 0;
+            border-bottom: 2px solid #d30909;
+            padding-bottom: 10px;
+        }
+        #group p {
+            font-size: 1.2em;
+            color: #333;
+        }
+        #group img {
+            width: 150px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+        }
+        .group-link {
+            margin: 20px 0;
+        }
+        .group-link a {
+            background-color: #d30909;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .group-link a:hover {
+            background-color: #b90606;
+        }
+        .game-link-section {
+    padding: 40px;
+    margin: 20px auto;
+    max-width: 1200px;
+    background-color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.game-link-section h2 {
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    color: #d30909;
+}
+
+.game-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.game-logo {
+    width: 150px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.game-details {
+    max-width: 600px;
+    text-align: left;
+}
+
+.game-details p {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.play-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin-top: 20px;
+    background-color: #d30909;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 1.2em;
+    transition: background-color 0.3s ease;
+}
+
+.play-btn:hover {
+    background-color: #b90606;
+}
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="hero-content">
+            <img src="images/LOGO.png" alt="Roblox Quiapo Church Logo" width="180" height="180">
+            <h1>Roblox Quiapo Church</h1>
+            <p>Official Website of RQC</p>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#events">Events</a>
+        <a href="#devotion">Devotion</a>
+        <a href="#group">Group</a>
+        <a href="#games">Games</a>
+    </nav>
+
+    <div class="content" id="home">
+        <div class="card">
+            <h2>Maligayang pagdating sa RQC OFFICIAL WEBSITE!</h2>
+            <p><strong> Lubos po kaming nagpapasalamat sa inyong oras at pagsisikap sa pagsusuri ng aming website, Viva! Ang inyong suporta at puna ay lubos naming pinahahalagahan upang patuloy naming mapabuti ang aming serbisyo.</strong></p>
+        </div>
+
+        <div class="social-media">
+            <h3>Follow Us</h3>
+            <a href="https://www.facebook.com/people/Rblx-Minor-Basilica-ng-Nazareno/61555521506833/" target="_blank">Facebook</a>
+            <a href="https://www.youtube.com/@RblxMinorBasilicangNazareno" target="_blank">YouTube</a>
+        </div>
+    </div>
+
+    <div class="content" id="about">
+        <h2>Ano ang Roblox Quiapo Church?</h2>
+        <p>Ang <strong>Roblox Quiapo Church (RQC)</strong> ay isang virtual na komunidad ng mga deboto ni <strong>Jesús Nazareno</strong> na naglalayong ipalaganap ang pananampalataya sa pamamagitan ng roleplaying, liturgical events, at debosyonal na aktibidad sa Roblox.</p>
+    
+        <h3>Kasaysayan</h3>
+        <p>Noong <strong>Enero 8, 2024</strong>, itinatag ang <strong>Rblx Minor Basilica ng Nazareno (RMBN)</strong> bilang isang paraan upang muling likhain ang debosyon kay Jesús Nazareno sa Roblox. Dito nagsimula ang mga virtual na <em>Misa, prusisyon, at iba pang gawain</em> upang mapalapit ang komunidad sa pananampalataya.</p>
+        <p>Habang lumalago ang ating grupo, napagtanto namin na mas angkop ang pangalang <strong>Roblox Quiapo Church (RQC)</strong> upang higit na maipakita ang ating inspirasyon—ang <strong>Quiapo Church</strong>, ang tahanan ni <strong>Jesús Nazareno.</strong></p>
+    
+        <h3>Layunin ng RQC</h3>
+        <ul>
+            <li>Palaganapin ang <strong>debosyon kay Jesús Nazareno</strong> sa digital na mundo.</li>
+            <li>Bigyan ang mga kabataan ng pagkakataong <strong>maranasan ang pananampalataya</strong> sa pamamagitan ng Roblox.</li>
+            <li>Lumikha ng isang <strong>makabuluhang espiritwal na komunidad</strong> na may pagkakaisa at pananampalataya.</li>
+        </ul>
+    
+        <h3>Opisyal ba ang RQC?</h3>
+        <p><strong>Hindi po.</strong> Ang RQC ay isang <em>independyenteng proyekto</em> ng mga deboto at hindi po opisyal na konektado sa Quiapo Church. Gayunpaman, layunin naming mapanatili ang respeto at kabanalan sa aming mga aktibidad, at umaasa kaming makilala ng Quiapo Church at mapaunlad pa ang pananampalataya sa Diyos.</p>
+    
+        <h3>ESTABLISHED</h3>
+        <p>January 8, 2024</p>
+    
+        <h3>Sumali sa Amin!</h3>
+        <p>Kung nais mong maging bahagi ng <strong>RQC</strong>, sumali sa aming <em>community events, panalangin, at roleplay activities.</em> Sama-sama nating ipagpatuloy ang debosyon kay <strong>Jesús Nazareno</strong> sa bagong kabanatang ito!</p>
+    
+        <p><strong>Viva Nuestro Padre Jesús Nazareno! 🙏✨</strong></p>
+    </div>
+    
+
+    <div class="content" id="gallery">
+        <h2>Gallery</h2>
+        <div class="gallery">
+            <img src="images/Gallery1.png" alt="Gallery Image 1" onclick="openModal(this)">
+            <img src="images/Gallery2.png" alt="Gallery Image 2" onclick="openModal(this)">
+            <img src="images/Gallery3.png" alt="Gallery Image 3" onclick="openModal(this)">
+            <img src="images/Gallery4.png" alt="Gallery Image 4" onclick="openModal(this)">
+            <img src="images/Gallery5.png" alt="Gallery Image 5" onclick="openModal(this)">
+            <img src="images/Gallery6.png" alt="Gallery Image 6" onclick="openModal(this)">
+            <img src="images/Gallery7.png" alt="Gallery Image 7" onclick="openModal(this)">
+            <img src="images/Gallery8.png" alt="Gallery Image 8" onclick="openModal(this)">
+            <img src="images/Gallery9.png" alt="Gallery Image 9" onclick="openModal(this)">
+            <img src="images/Gallery10.png" alt="Gallery Image 10" onclick="openModal(this)">
+        </div>
+    </div>
+
+    <div class="content" id="events">
+        <h2>Events</h2>
+        <div class="events">
+            <ul>
+                <li>
+                    <h3>Way of the Cross</h3>
+                    <p>Date: April 11, 2025</p>
+                    <p>Way of the Cross around the Virtual Quiapo area</p>
+                </li>
+                <li>
+                    <h3>NONE</h3>
+                    <p>Date: NONE</p>
+                    <p>NONE</p>
+                </li>
+                <li>
+                    <h3>NONE</h3>
+                    <p>Date: NONE</p>
+                    <p>NONE</p>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="content" id="devotion">
+    <h2> Debosyon kay Poong Jesus Nazareno</h2>
+    <p>Ang debosyon kay Poong Jesus Nazareno ay isang makabuluhang aspeto ng espiritwalidad ng Pilipino. Sinasagisag nito ang malalim na pananampalataya at pagpipitagan para sa Itim na Nazareno, isang representasyon ni Hesukristo na kilala sa mga mahimalang at nakapagpapagaling na kapangyarihan nito. Ang debosyon na ito ay ipinagdiriwang sa pamamagitan ng iba't ibang aktibidad, kabilang ang mga prusisyon, nobena, at taunang mga kaganapan.</p>
+    <p>Sa aming virtual na komunidad, muli naming nililikha ang mga sagradong tradisyon na ito upang mailapit ang karanasan ng debosyon sa mga taong maaaring hindi makasali nang personal. Sa pamamagitan ng roleplaying liturhiya at muling paglikha ng mahahalagang kaganapan, iginagalang namin ang mga tradisyon at pananampalataya na kinakatawan ng Itim na Nazareno.</p>
+    
+
+    <h3>Historical Background</h3>
+    <p>Ang Black Nazarene ay isang life-size na estatwa ni Hesukristo na nagpapasan ng krus. Ito ay pinaniniwalaang inukit sa Mexico at dinala sa Pilipinas noong unang bahagi ng ika-17 siglo ng mga misyonerong Espanyol. Ang estatwa ay unang inilagay sa simbahan ng San Nicolás sa Maynila, ngunit kalaunan ay inilipat sa Minor Basilica ng Itim na Nazareno sa Quiapo.</p>
+    <p>Ang estatwa ay kilala sa maitim nitong kutis, na iniuugnay sa isang apoy na sumira sa orihinal na larawan. Sa kabila nito, ang Itim na Nazareno ay naging isang makapangyarihang simbolo ng pag-asa at pananampalataya para sa milyun-milyong Pilipino. Ang taunang Pista ng Itim na Nazareno, na ginanap noong Enero 9, ay umaakit sa milyun-milyong deboto na nakikibahagi sa Traslacion, isang engrandeng prusisyon mula sa Quirino Grandstand hanggang sa Quiapo Church. Ang kaganapang ito ay isa sa pinakamalaki at pinakamaalab na relihiyosong pagtitipon sa mundo.</p>
+    <p>Ang debosyon sa Itim na Nazareno ay minarkahan ng pagbibigay-diin nito sa personal na sakripisyo, pagsisisi, at debosyon. Naniniwala ang mga mananampalataya na ang Itim na Nazareno ay nagsasagawa ng mga himala at nagdudulot ng kagalingan sa mga taong taimtim na naghahanap ng pamamagitan nito.</p>
+
+    <h3>Key Events in Devotion</h3>
+    <ul>
+        <li><strong>The Traslacion:</strong> Isang taunang prusisyon na ginugunita ang paglipat ng Itim na Nazareno mula sa orihinal nitong lokasyon patungo sa kasalukuyang dambana.</li>
+        <li><strong>The Novena:</strong> Isang serye ng mga panalangin ang sinabi siyam na araw bago ang Pista ng Itim na Nazareno, na nakatuon sa espirituwal na pagpapanibago at debosyon.</li>
+        <li><strong>The Feast Day:</strong> 
+            Ipinagdiriwang noong Enero 9, ang araw na ito ay minarkahan ang pagtatapos ng taunang kasiyahan na may isang engrandeng prusisyon at mga relihiyosong seremonya.</li>
+    </ul>
+</div>
+
+<div class="content" id="group">
+    <h2>Our Group</h2>
+    <img src="images/Rblx Del Nazareno.png" alt="Group Logo">
+    <p>Sumali sa aming lumalagong komunidad! Pinagsasama-sama ng Rblx Del Nazareno ang mga Pilipino mula sa lahat ng antas ng pamumuhay sa Roblox platform. Sa pamamagitan ng roleplaying liturhiya at muling paglikha ng mahahalagang kaganapang panrelihiyon, nilalayon naming pagyamanin ang debosyon at palakasin ang pananampalataya ng aming mga miyembro.</p>
+    <div class="group-link">
+        <a href="https://www.facebook.com/people/Rblx-Del-Nazareno/61555759535784/" target="_blank">Join Us on Facebook</a>
+    </div>
+</div>
+</div>
+<div class="game-link-section" id="games">
+    <h2>Visit our Roblox Game</h2>
+    <div class="game-content">
+        <img src="images/LOGO.png" alt="Roblox Quiapo Church Game" class="game-logo">
+        <div class="game-details">
+            <p>Damhin ang virtual na libangan ng Roblox Quiapo Church sa Roblox! Samahan kami sa pakikilahok sa mga relihiyosong kaganapan, prusisyon, at Traslacion, lahat sa isang virtual na kapaligiran.</p>
+            <a href="https://www.roblox.com/games/108642601042707/District-Of-Quiapo" target="_blank" class="play-btn">Maglaro Ngayon sa Roblox</a>
+        </div>
+    </div>
+</div>
+
+
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Roblox Quiapo Church. All rights reserved.</p>
+            <p>Viva Poong Jesus Nazareno!</p>
+        </div>
+    </footer>
+
+
+    <div id="myModal" class="modal">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="imgModal">
+    </div>
+
+    <script>
+
+        function openModal(element) {
+            document.getElementById('myModal').style.display = 'block';
+            document.getElementById('imgModal').src = element.src;
+        }
+
+
+        function closeModal() {
+            document.getElementById('myModal').style.display = 'none';
+        }
+
+        
+        function checkInView() {
+            const contents = document.querySelectorAll('.content');
+            const events = document.querySelectorAll('.events li');
+            
+            contents.forEach(content => {
+                const rect = content.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    content.classList.add('in-view');
+                }
+            });
+
+            events.forEach(event => {
+                const rect = event.getBoundingClientRect();
+                if (rect.top < window.innerHeight && rect.bottom >= 0) {
+                    event.classList.add('in-view');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkInView);
+    </script>
+</body>
+</html>
